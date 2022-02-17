@@ -45,7 +45,7 @@ class PosSession(models.Model):
     @api.model
     def get_currency_rates(self):
         rate_usd = self.env['res.currency'].search([('name', '=', 'USD')], limit=1).rate
-        rate_bolivar = self.env['res.currency'].search([('name', '=', 'Bs.s')], limit=1).rate
+        rate_bolivar = self.env['res.currency'].search([('name', '=', 'VEF')], limit=1).rate
         rates = [rate_usd, rate_bolivar]
         return rates    
 
