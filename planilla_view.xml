@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- VISTA - LISTADO - TREE  -->
+    <record id="view_planilla_tree" model="ir.ui.view">
+        <field name="name">beca.planilla.tree</field>
+        <field name="model">beca.planilla</field>
+        <field name="arch" type="xml">
+            <tree sample="1">
+                 <field name="name"/>
+                 <field name="cedula"/>
+                 <field name="apellido1"/>
+                 <field name="apellido2"/>
+                 <field name="nombre1"/>
+                 <field name="nombre2"/>
+                 <field name="state" decoration-info="state =='censado'" 
+                                    decoration-success="state =='becado'"
+                                    decoration-primary="state =='en proceso'"  
+                                    decoration-warning="state =='ejecutada'" 
+                                    decoration-danger="state =='cancelada'"
+                                    widget="badge" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_planilla_filter" model="ir.ui.view">
+        <field name="name">beca.planilla.list.select</field>
+        <field name="model">beca.planilla</field>
+        <field name="priority" eval="15" />
+        <field name="arch" type="xml">
+            <search string="Busqueda Unidad Producción">
+                    <field name="name"/>
+                    <field name="cedula"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- VISTA - TARJETAS - KANBAN  -->
+    <record id="view_planilla_kanban" model="ir.ui.view">
+        <field name="name">beca.planilla.kanban</field>
+        <field name="model">beca.planilla</field>
+        <field name="arch" type="xml">
+            <kanban sample="1">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="priority" optional="show"/>
+ 
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                           <div t-attf-class="oe_kanban_global_click">
+                                <div class="oe_kanban_record_top mb16">
+                                    <div class="oe_kanban_record_headings mt4">
+                                       <strong class="o_kanbam_record_title"> <span> <field name="name" /> </span> </strong>
+                                    </div>
+                                </div>
+                                <div class="oe_kanban_record_bottom">
+                                    <div class="oe_kanban_letf text-muted">
+                                       <span>  <field name="cedula" /> </span> 
+                                    </div>
+                                    <div class="oe_kanban_letf text-muted">
+                                       <span>  <field name="apellido1"/> </span> <span>  <field name="apellido2"/> </span> 
+                                    </div>
+                                    <div class="oe_kanban_letf text-muted">
+                                       <span> <field name="nombre1"/> </span>  <span> <field name="nombre2"/> </span> 
+                                    </div>
+                                    
+                                    <div class="oe_kanban_bottom_rigth">
+                                       <span> <field name="state" widget="label_selection" options="{'classes': {'censado':'info','becado':'success','en proceso':'primary','ejecutada':'info'}}"/> </span> 
+                                    </div>                                    
+                                </div>
+                           </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- VISTA - FORMULARIO  -->
+    <record id="view_planilla_form" model="ir.ui.view">
+        <field name="name">beca.planilla.form</field>
+        <field name="model">beca.planilla</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="planilla">
+                <header>
+                    <button id="button_confirm" name="action_aprobar" string="APROBAR BECA" class="btn-info" states="censado"
+                            confirm="Está seguro de APROBAR LA BECA ?"
+                            type="object"/>
+                    <!-- <button id="button_proceso" name="action_proceso" string="En proceso" class="btn-primary" states="aprobada"
+                            confirm="Está seguro de comenzar la acción de gobierno ?"
+                            type="object"/>
+                    <button id="button_done" name="action_done" string="Marcar Como Ejecutada" class="btn-primary" states="en proceso"
+                            type="object"/> -->
+                    <button id="button_draft" name="action_draft" string="COLOCAR EN CENSADO" class="btn-primary"
+                            states="cancelada" type="object"/>
+                    <button id="button_cancel" name="action_cancel" string="CANCELAR BECA" states="becado"
+                            confirm="Está seguro de CANCELAR LA BECA ?"
+                            class="btn-danger"
+                            type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="censado,becado"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Censado" bg_color="bg-info" attrs="{'invisible': [('state', '!=', 'censado')]}"/>
+                    <widget name="web_ribbon" title="Becado"   bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'becado')]}"/>
+                    <!-- <widget name="web_ribbon" title="En proceso" bg_color="bg-primary" attrs="{'invisible': [('state', '!=', 'en proceso')]}"/>
+                    <widget name="web_ribbon" title="Ejecutada"  bg_color="bg-info"    attrs="{'invisible': [('state', '!=', 'ejecutada')]}"/>   -->
+                    <widget name="web_ribbon" title="Cancelada"  bg_color="bg-danger"  attrs="{'invisible': [('state', '!=', 'cancelada')]}"/>
+                    
+                    <div class="oe_title">
+                        <h2>
+                           <separator string="DATOS PERSONALES" colspan="2" />
+                            <group col="2">
+
+                            <group>          
+                                    <field name="numero" attrs="{'readonly': [('name', '!=', 'New')]}"></field>
+                                    <!-- <field name="numero" attrs="{'readonly': [('name', '!=', 'Nuevo')]}"></field>  -->
+                            </group>
+                            <group>
+                                    <field name="cedula" attrs="{'readonly': [('name', '!=', 'New')]}"></field>
+                                    <!-- <field name="cedula" attrs="{'readonly': [('name', '!=', 'Nuevo')]}"></field> -->
+                                    <field name="date_nacimiento" ></field>
+                            </group>
+                            
+                            </group>   
+                        </h2> 
+                    </div>
+                    
+                <h2>
+                    
+                    <!-- <group colspan="2" col="2">
+                        <field name="candidato_id"></field>
+                    </group> -->
+                  
+                        <group >
+                            <group>
+                            
+                                <field name="apellido1"></field>
+                            
+                                <field name="apellido2"></field>
+                            </group>
+                             
+                            <group>
+                                <field name="nombre1"></field>
+                           
+                                <field name="nombre2"></field>
+                            </group>
+                        </group>
+                    </h2>   
+                    <h2>
+                       
+                        <group>
+                            <group>
+                                <field name="municipio_id" editable="0"></field>
+                            </group>
+                            <group>
+                                <field name="parroquia_id" domain="[('municipio_id','=', municipio_id)]"></field> 
+                            </group>
+                        </group>
+                    </h2>
+                    <h2>
+                        <group>
+                            <field name="direccion"></field>
+                        </group>
+                    </h2>
+                    <h2>
+                        <group>
+                            <group>
+                                <field name="telefono1"></field>
+                            </group>
+                            <group>
+                                <field name="telefono2"></field> 
+                            </group>
+                        </group>
+                    
+                        <separator string="DATOS ACADÉMICOS"/>
+                        <group>
+                            <group>
+                                <field name="modalidad"></field>
+                            </group>
+                           <group>
+                                <group>
+                                    <field name="anoegreso" attrs="{'invisible': [('modalidad', '!=', '0')]}"></field> 
+                                    
+                                </group>
+
+                                <group>
+                                    <field name="anoegreso1" attrs="{'invisible': [('modalidad', '!=', '1')]}"></field>
+                                </group>
+                            </group>
+                        </group>
+                    </h2> 
+                    <notebook>
+                        <page string="CARRERAS / CURSOS" name="limite">
+                          <h2>
+                            <group>
+                               <field name="opcion1_id" domain="[('id','not in', [opcion2_id , opcion3_id])]"></field>
+                            
+                               <field name="opcion2_id" domain="[('id','not in', [opcion1_id , opcion3_id])]" ></field>
+                           
+                               <field name="opcion3_id" domain="[('id','not in', [opcion1_id , opcion2_id])]"></field>
+                            </group>
+                          </h2>
+                        </page>
+
+                    </notebook>
+                    <!-- <group string="Observaciones">
+                        <field name="note" nolabel="1" ></field>
+                    </group>  -->
+                    <field name="name" invisible="1"/>
+                    
+                </sheet>
+                    
+            </form>
+        </field>
+    </record>
+
+    
+    <!-- VISTA - ACTION - MENU  -->
+    <record id="action_beca_planilla" model="ir.actions.act_window">
+        <field name="name">Solicitudes de Beca</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">beca.planilla</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crea tu primer planilla!
+            </p>
+        </field>
+    </record>
+
+    <!-- VISTA - MENU  -->
+
+    <!-- <menuitem id="menu_registro" 
+                  name="Registros"
+                  parent="menu_situacional_root" 
+                  sequence="1"/> -->
+
+    <menuitem id="menu_planilla" 
+                  name="Solicitudes"
+                  parent="menu_registro_root" 
+                  action="action_beca_planilla"
+                  sequence="2"/>
+
+</odoo>
