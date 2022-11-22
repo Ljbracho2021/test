@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- VISTA - LISTADO - TREE  -->
+    <record id="view_carrera_tree" model="ir.ui.view">
+        <field name="name">beca.carrera.tree</field>
+        <field name="model">beca.carrera</field>
+        <field name="arch" type="xml">
+            <tree sample="1">
+                 <field name="name"/>
+                 <field name="nombre"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_carrera_filter" model="ir.ui.view">
+        <field name="name">beca.carrera.list.select</field>
+        <field name="model">beca.carrera</field>
+        <field name="priority" eval="15" />
+        <field name="arch" type="xml">
+            <search string="Busqueda Unidad Producción">
+                    <field name="nombre"/>
+                    <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- VISTA - TARJETAS - KANBAN  -->
+    <record id="view_carrera_kanban" model="ir.ui.view">
+        <field name="name">beca.carrera.kanban</field>
+        <field name="model">beca.carrera</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="nombre"/>
+ 
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+
+                                <div class="o_kanban_image mr-1">
+                                    <field name="image" widget="image" class="oe_avatar"/>
+                                </div>
+ 
+                                <div class="oe_kanban_global_click">
+                                     <div class="oe_kanban_record_top mb16">
+                                        <div class="oe_kanban_record_headings mt4">
+                                            <strong class="o_kanbam_record_title"> <span> <field name="nombre" /> </span> </strong>
+                                            <field name="priority" widget="priority"/>
+                                        </div>
+                                     </div>
+                                     <t t-if="record.nombre.value">NRO. ()</t>
+                                     <div class="o_kanban_record_headings">
+                                            <strong class="o_kanban_record_title"> NRO.  ( ) </strong>
+                                     </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- VISTA - FORMULARIO  -->
+    <record id="view_carrera_form" model="ir.ui.view">
+        <field name="name">beca.carrera.form</field>
+        <field name="model">beca.carrera</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="carrera">
+ 
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h2>
+                                <field name="name" readonly="1"/>
+                        </h2>
+                        <h2>
+                            <div class="d-flex">
+                                <field name="priority" widget="priority" class="mr-3"/>
+                                <field class="o_text_overflow" name="nombre" placeholder="Ejemplo: Administración de Empresas"/>
+                            </div>
+                        </h2>
+                    </div>
+                    
+                    <separator string="Ubicaciòn" colspan="2" />
+                    <group colspan="2" col="2">
+                        
+                    </group>
+
+                    
+                    <group string="Observaciones">
+                        <field name="note" nolabel="1" ></field>
+                    </group> 
+                    
+                    <notebook>
+                        <page string="OFERTA ACADÉMICA" name="limite">
+                            <field name="oferta_line_ids">
+                                    <tree editable="bottom">
+                                       
+                                       <field name="universidad_id"/>
+ 
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            
+                                            <group>
+                                                <field name="universidad_id"/>
+                                            </group>
+                                            
+                                        </group>
+                                    </form>
+                            </field> 
+                        </page>
+                    </notebook>
+    
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+    
+    <!-- VISTA - ACTION - MENU  -->
+    <record id="action_beca_carrera" model="ir.actions.act_window">
+        <field name="name">Carreras</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">beca.carrera</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crea tu primer carrera!
+            </p>
+        </field>
+    </record>
+
+    <!-- VISTA - MENU  -->
+
+    <!-- <menuitem id="menu_registro" 
+                  name="Registros"
+                  parent="menu_situacional_root" 
+                  sequence="1"/> -->
+
+    <menuitem id="menu_carrera" 
+                  name="Carreras"
+                  parent="menu_oferta" 
+                  action="action_beca_carrera"
+                  sequence="3"/>
+
+</odoo>
