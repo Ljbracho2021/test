@@ -1,0 +1,44 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+  
+         
+
+   <!-- ================== Menu principal y sub menus ================== -->
+ 
+    <menuitem id="menu_principal_root" 
+              name="Becas JEL"
+              sequence="0"/>
+    
+      <menuitem id="menu_registro_root"
+                name="Registros" 
+                parent="menu_principal_root" 
+                sequence="1"/>   
+      <!-- <menuitem id="menu_informe_root"
+                name="Informes" 
+                parent="menu_sala_root" 
+                sequence="4"/>--> -->
+
+      <menuitem id="menu_configura_root"
+                name="Configuración" 
+                parent="menu_principal_root" 
+                groups="group_admin"
+                sequence="5"/>
+
+      <menuitem id="menu_ubicacion" 
+                name='Ubicacion'
+              parent="menu_configura_root" 
+            sequence="6" />
+
+      <menuitem id="menu_oferta" 
+                name='Oferta Académica'
+              parent="menu_configura_root" 
+            sequence="7" />
+
+      <!--<menuitem id="menu_analyticsg_root"
+                name="Analytics Gestión" 
+                parent="menu_sala_root" 
+                sequence="6"/> -->
+  
+  </data>
+</odoo>
