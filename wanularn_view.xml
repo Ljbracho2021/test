@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Definición del wanularn -->
+    <record id="beca_wanularn_view_form" model="ir.ui.view">
+        <field name="name">beca.wanularn.view.form</field>
+        <field name="model">beca.wanularn</field>
+        <field name="arch" type="xml">
+            <form string="Informe de Ventas">
+                <sheet>
+                   
+                   <separator string="SELECCIONE EL NRO. DE PLANILLA" colspan="2" />
+                   <group>
+                        <field name="numero" />
+                   </group>
+                   
+
+                   <separator string="SELECCIONE DEL MOTIVO DE ANULACIÓN" colspan="2" />
+                   <group col="3" colspan="3">
+                        
+                        <group>
+                              <field name="anulada_id" />
+                        </group>
+                        
+                   </group>
+                   
+                   <group col="3" colspan="3" attrs="{'invisible': [('anulada_id', '!=', 'OTRO')]}">
+                        <separator string="OBSERVACIONES" colspan="2" />
+                        <group>
+                              <field name="note_anulada" />
+                        </group>
+                        
+                   </group>
+
+                   <footer>
+                        <button name="action_anular" type="object" string="ANULAR PLANILLA" class="btn-danger" confirm="Está seguro de ANULAR LA PLANILLA ?"/>
+                        <!-- <button name="action_censado" type="object" string="COLOCAR EN CENSADO" class="btn-warning" /> -->
+                        <button string="CANCELAR" class="btn-secondary" special="cancel" />
+                   </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Definición de la acción -->
+    <record id="beca_wanularn_action" model="ir.actions.act_window">
+        <field name="name">ANULAR PLANILLAS NO REGISTRADAS</field>
+        <field name="res_model">beca.wanularn</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="beca_wanularn_view_form" />
+        <field name="target">new</field>
+    </record>
+	
+	<!-- Definición del menú -->
+    
+
+        <menuitem
+        id="beca_menu_planilla_no"
+        name="No Registradas"
+        action="beca_wanularn_action"
+        parent="beca_menu_anular"
+        sequence="2" />
+
+</odoo>
