@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_template_s">
+         <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="oe_structure" />
+                <div class="page">
+
+                     <div style="border-bottom: 1px solid black;">
+                        <h1 class="text-center"> <span style="font-size: 18px;">GOBERNACIÓN DEL ESTADO ZULIA </span> </h1>
+                        <h2 class="text-center"> <span style="font-size: 18px;">PROGRAMA DE BECAS JESÙS ENRIQUE LOSSADA </span> </h2>
+                     </div>
+
+                    <div style="background-color: #b3b2b1;color: red;" class="text-center"><h2>LISTADO DETALLADO DE PLANILLAS POR STATUS</h2></div>
+					<table width="100%" style="border: 1px solid black; border-collapse: collapse;" height="30">
+                        <thead>
+                            <tr  height="20px" align="center">
+                                <td style="padding-left:5px;border: 1px solid black;background-color: #b3b2b1;color: black;" class="text-left">STATUS</td>
+                                <td style="padding-left:5px;border: 1px solid black;" class="text-left">BECADO</td>
+                                <!-- <td style="padding-left:5px;border: 1px solid black;" class="text-left"><span t-esc="form_data['state_id']"/></td> -->
+
+                                <td style="padding-left:5px;border: 1px solid black;background-color: #b3b2b1;color: black;" class="text-left">MODALIDAD DE ESTUDIO</td>
+                                <td style="padding-left:5px;border: 1px solid black;" class="text-left"><span t-esc="form_data['nombreModalidad']"/></td>
+                            </tr>
+                        </thead>
+                    </table> 
+                    <table width="100%" style="border: 1px solid black; border-collapse: collapse;" height="30">
+                        <thead>
+                            
+                            <tr style="background-color: #42a4f5; font-size: 12px;" height="30px" align="center">
+                                  
+                                <th width="2%"  style="border: 1px solid black;color: white;">#           </th>
+                               
+                                
+                                <th width="6%" style="border: 1px solid black;color: white;">APELLIDOS</th>
+                                <th width="6%" style="border: 1px solid black;color: white;">NOMBRES</th>
+                                <th width="6%" style="border: 1px solid black;color: white;">NRO. CÉDULA</th>
+                                <th width="10%" style="border: 1px solid black;color: white;">NRO. PLANILLA      </th>
+                                
+                                <th style="border: 1px solid black;color: white;">STATUS</th>
+                             </tr>
+                        </thead>
+                        <tbody>
+
+                            <t t-set="i" t-value="0" />
+                           
+
+                            <t t-foreach="salida" t-as="line">
+                                <tr style="font-size: 12px;">
+                                    
+
+
+                                    <t t-set="i" t-value="i+1"/>
+                                    
+
+
+                                    <td width="2%"  style="padding-right:4px;padding-left:4px;border: 1px solid black;" class="text-right"><span t-esc="i" /></td>
+                                    
+                                    
+                                    <td width="30%" style="padding-right:4px;padding-left:4px;border: 1px solid black;" class="text-left"><span t-esc="line['apellido']"/></td>
+                                    <td width="30%" style="padding-right:4px;padding-left:4px;border: 1px solid black;" class="text-left"><span t-esc="line['nombre']"/></td>
+                                    <td width="10%" style="padding-right:4px;padding-left:4px;border: 1px solid black;" class="text-center"><span t-esc="line['cedula']"/></td>
+                                    <td width="10%" style="padding-right:4px;padding-left:4px;border: 1px solid black;" class="text-center"><strong t-esc="line['numero']" /></td>
+                                    <td width="10%" style="padding-right:4px;padding-left:4px;border: 1px solid black;" class="text-center"><span t-esc="line['state']" /></td>
+                                </tr>
+                            </t>
+                           
+                            <tr height="30px"> 
+                                    <th width="100%" colspan="3" class="text-center" style="border: 1px solid black;background-color: #42a4f5; color: white;">TOTAL PLANILLAS</th>
+                                    <td colspan="3" style="padding-right:4px;border: 1px solid black;background-color: #b3b2b1;" class="text-center"> <strong t-esc="i" t-options='{"widget": "float", "precision": 0}'/> </td>
+                            </tr>
+                                                        
+                            <div>
+                                <p t-if="i == 0"><h2>NO HAY ITEMS PARA MOSTRAR</h2></p>
+                            </div>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_s" model="ir.actions.report">
+        <field name="name">Reporte de Solicitudes / Status</field>
+        <field name="model">beca.carrera</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">reporteBeca.report_template_s</field>
+        <field name="report_file">reporteBeca.report_template_s</field>
+        <field name="binding_type">report</field>
+    </record>
+    
+
+</odoo>
